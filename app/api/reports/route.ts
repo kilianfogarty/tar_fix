@@ -1,4 +1,4 @@
-import { createClient } from '@/app/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -8,24 +8,28 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData()
   const description = formData.get('description') as string
-  const file = formData.get('image') as File
+  const file = formData.get('image') as File | null
 
-  // Upload image to the "images" bucket in Supabase
-  const fileName = `${Date.now()}-${file.name}`
-  const { data: uploadData, error: uploadError } = await supabase.storage
-    .from('images')
-    .upload(fileName, file)
+  let publicUrl = null
 
-  if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 })
+  // Only upload if a file was actually provided
+  if (file && file.size > 0) {
+    const fileName = `${Date.now()}-${file.name}`
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('images')
+      .upload(fileName, file)
+
+    if (uploadError) {
+      return NextResponse.json({ error: uploadError.message }, { status: 500 })
+    }
+
+    const { data: { publicUrl: url } } = supabase.storage
+      .from('images')
+      .getPublicUrl(uploadData.path)
+    
+    publicUrl = url
   }
 
-  // Get the public URL
-  const { data: { publicUrl } } = supabase.storage
-    .from('images')
-    .getPublicUrl(uploadData.path)
-
-  // Insert the report row into Supabase
   const { data, error } = await supabase
     .from('reports')
     .insert({ description, image_url: publicUrl })
@@ -47,6 +51,7 @@ export async function GET() {
     .from('reports')
     .select('*')
     .order('created_at', { ascending: false })
+    .limit(50)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
