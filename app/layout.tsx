@@ -36,6 +36,7 @@ export default function RootLayout({
         <header className="w-full p-4 text-white shadow flex items-center justify-between" style={{backgroundColor:"rgb(15, 26, 56)"}}>
           <div className="flex items-center gap-3">
             <Image
+            //Image generated through AI
             src="/TarFixLogo.png"
             alt="TarFix Logo"
             height={80}

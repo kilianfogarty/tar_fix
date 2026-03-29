@@ -14,6 +14,7 @@ return (
         <h1 className="text-xl font-bold">Welcome to TarFix</h1>
         <p className="mt-5 mb-7">Are you tired of tripping over missing bricks on campus sidewalks? Have you ever fallen/almost fallen on campus due to construction issues? TarFix can help!</p>
         <Image
+                    //Image generated through copilot AI
                     src="/IntroImage.png"
                     alt="UNC Ramses tripping over bricks."
                     height={400}
