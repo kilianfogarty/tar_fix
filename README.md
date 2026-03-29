@@ -1,3 +1,13 @@
+## TODO
+
+Kilian:
+- Add user authorization to Supabase.
+- Tighten RLS requirements
+- Host on Vercel
+
+Lisbeth and Kimberlyn:
+- Front end stuff
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
