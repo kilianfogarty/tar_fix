@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Image from "next/image"
 import Link from "next/link"
+import Homepage from "./Homepage";
+
+//Used Copilot AI for the structure inside the the HTML body including some assistance for classnames, how to insert the logo properly using import Image, adding links properly using import Links, and seperate homepage content from other pages using import Homepage. Also used it to help with seperating {children} from header and navbar.
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,12 +44,12 @@ export default function RootLayout({
           <Link href="/"><h1 className="text-xl font-bold">TarFix</h1></Link>
           </div>
 
-          <nav className="text-xl font-thin flex gap-6">
+          <nav className="text-xl font-thin flex flex-row gap-6">
             <Link href="/report">Report an Issue</Link>
             <Link href="/contact">Contact Us</Link>
           </nav>
         </header>
-
+        <Homepage/>
         <main className="p-4 flex-1">
           {children}
         </main>
